@@ -1,0 +1,1 @@
+const String description = "Auto leveling, often referred to as automatic leveling or self-leveling, is a technology used in various applications to ensure that a surface or system remains flat, even, or balanced without manual intervention.";
