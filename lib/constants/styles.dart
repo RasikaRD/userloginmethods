@@ -10,9 +10,9 @@ const inputFormDecoration = InputDecoration(
   fillColor: bgBlack,
   filled: true,
   enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(100)),
+      borderRadius: BorderRadius.all(Radius.circular(10)),
       borderSide: BorderSide(color: Colors.amber, width: 1)),
   focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(100)),
+      borderRadius: BorderRadius.all(Radius.circular(10)),
       borderSide: BorderSide(color: Colors.amber, width: 1)),
 );

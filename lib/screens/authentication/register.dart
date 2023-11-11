@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:userlogin/constants/colors.dart';
 import 'package:userlogin/constants/description.dart';
 import 'package:userlogin/constants/styles.dart';
+import 'package:userlogin/services/auth.dart';
 
 class Register extends StatefulWidget {
-  const Register({super.key});
+  final Function toggle;
+  const Register({super.key, required this.toggle});
 
   @override
   State<Register> createState() => _RegisterState();
 }
+
 final _formkey = GlobalKey<FormState>();
 
 class _RegisterState extends State<Register> {
-    // email, password store
+  final AuthService _auth = AuthService();
+  // email, password store
   String email = "";
   String password = "";
+  String error = "";
   @override
   Widget build(BuildContext context) {
-return Scaffold(
+    return Scaffold(
       backgroundColor: bgBlack,
       appBar: AppBar(
         backgroundColor: bgBlack,
@@ -50,6 +55,7 @@ return Scaffold(
                 key: _formkey,
                 child: Column(children: [
                   TextFormField(
+                    style: const TextStyle(color: Colors.white),
                     decoration:
                         inputFormDecoration.copyWith(hintText: "Enter Email"),
                     validator: (val) =>
@@ -64,7 +70,9 @@ return Scaffold(
                     height: 15,
                   ),
                   TextFormField(
+                    obscureText: true,
                     decoration: inputFormDecoration,
+                    style: const TextStyle(color: Colors.white),
                     validator: (val) =>
                         val!.length < 5 ? "Enter valid password" : null,
                     onChanged: (val) {
@@ -73,15 +81,48 @@ return Scaffold(
                       });
                     },
                   ),
+                                    const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    error,
+                    style: const TextStyle(color: Colors.redAccent),
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
-                  TextButton(onPressed:  (){}, child: const Text('Register')),
+                  TextButton(
+                      style: TextButton.styleFrom(
+                          side: const BorderSide(width: 1, color: Colors.amber),
+                          padding: const EdgeInsets.all(10),
+                          foregroundColor:
+                              const Color.fromARGB(255, 136, 138, 139),
+                          textStyle: const TextStyle(fontSize: 12)),
+                      onPressed: () async {
+                        dynamic result = await _auth.registerWithEmailPasssword(
+                            email, password);
+                        if (result == null) {
+                          setState(() {
+                            error = "Please enter valid email";
+                          });
+                        }
+                      },
+                      child: const Text('Register')),
+
                   const SizedBox(
                     height: 5,
                   ),
                   TextButton(
-                      onPressed: () {}, child: const Text('Login as a gest')),
+                      style: TextButton.styleFrom(
+                          side: const BorderSide(width: 1, color: Colors.amber),
+                          padding: const EdgeInsets.all(10),
+                          foregroundColor:
+                              const Color.fromARGB(255, 136, 138, 139),
+                          textStyle: const TextStyle(fontSize: 12)),
+                      onPressed: () {
+                        widget.toggle();
+                      },
+                      child: const Text('Login if has an account')),
                   const SizedBox(
                     height: 15,
                   ),
